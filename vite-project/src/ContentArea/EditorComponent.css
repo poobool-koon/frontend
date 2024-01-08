@@ -1,0 +1,16 @@
+.demo-editor {
+  /* border 속성 설정 */
+  border: 1px solid #000; /* 테두리 선의 굵기와 색상을 설정합니다. */
+
+  /* 선택적으로 다른 스타일을 추가할 수 있습니다. */
+  resize: vertical; /* 사용자가 수직으로 크기를 조정할 수 있도록 합니다. */
+  box-sizing: border-box; /* 테두리와 패딩이 요소의 크기에 포함되도록 합니다. */
+}
+.demo-toolbar {
+  /* border 속성 설정 */
+  border: 2px solid #000; /* 테두리 선의 굵기와 색상을 설정합니다. */
+
+  /* 선택적으로 다른 스타일을 추가할 수 있습니다. */
+  resize: vertical; /* 사용자가 수직으로 크기를 조정할 수 있도록 합니다. */
+  box-sizing: border-box; /* 테두리와 패딩이 요소의 크기에 포함되도록 합니다. */
+}

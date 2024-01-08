@@ -1,0 +1,10 @@
+h1 {
+  background-color: rgb(118, 180, 116);
+  padding: 20px;
+}
+#banner,
+#banner:visited,
+#banner:hover {
+  text-decoration: none;
+  color: black;
+}
