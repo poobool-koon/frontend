@@ -1,12 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, useRef, useState } from "react";
 
-import { EditorState, convertToRaw } from "draft-js";
+import { ContentState, EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import "./EditorComponent.css";
 import "/node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
-import "./EditorComponent.css";
-class EditorComponent extends Component {
+
+interface EditorComponentProps {
+  value?: string;
+}
+
+class EditorComponent extends Component<EditorComponentProps> {
+  constructor(props: any) {
+    super(props);
+
+    const html = props.value;
+    const contentBlock = htmlToDraft(html);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      this.state = {
+        editorState,
+      };
+    } else {
+      this.state = { editorState: EditorState.createEmpty() };
+    }
+  }
   state = {
     editorState: EditorState.createEmpty(),
   };
@@ -19,6 +41,7 @@ class EditorComponent extends Component {
 
   render() {
     const { editorState } = this.state;
+
     return (
       <div>
         <Editor
@@ -34,7 +57,11 @@ class EditorComponent extends Component {
             history: { inDropdown: false },
           }}
         />
-        {draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+        <textarea
+          name="content"
+          className="invisible"
+          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+        />
       </div>
     );
   }

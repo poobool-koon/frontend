@@ -8,20 +8,42 @@ import PostWrite, {
   postWriteLoader,
   postWriteAction,
 } from "./ContentArea/PostWrite.tsx";
-import BlogMain from "./ContentArea/BlogMain.tsx";
 import Root from "./ContentArea/Root.tsx";
+import BlogMain from "./ContentArea/BlogMain.tsx";
+import { postListLoader } from "./ContentArea/PostList.tsx";
+import PostRead, { postReadLoader } from "./ContentArea/PostRead.tsx";
+import PostEdit, {
+  postEditAction,
+  postEditLoader,
+} from "./ContentArea/PostEdit.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <div>잘못된 접근입니다.</div>,
+    //    errorElement: <div>잘못된 접근입니다.</div>,
     children: [
       {
-        path: "/:id",
+        path: "/write",
         element: <PostWrite />,
         loader: postWriteLoader,
         action: postWriteAction,
+      },
+      {
+        path: "/edit/:id",
+        element: <PostEdit />,
+        loader: postEditLoader,
+        action: postEditAction,
+      },
+      {
+        path: "",
+        element: <BlogMain />,
+        loader: postListLoader,
+      },
+      {
+        path: ":id",
+        element: <PostRead />,
+        loader: postReadLoader,
       },
     ],
   },
