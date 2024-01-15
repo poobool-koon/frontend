@@ -1,23 +1,44 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import Head from "./ContentArea/Head.tsx";
+import Head from "./components/Head.tsx";
 import { render } from "react-dom";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PostWrite, {
   postWriteLoader,
   postWriteAction,
-} from "./ContentArea/PostWrite.tsx";
-import Root from "./ContentArea/Root.tsx";
-import BlogMain from "./ContentArea/BlogMain.tsx";
-import { postListLoader } from "./ContentArea/PostList.tsx";
-import PostRead, { postReadLoader } from "./ContentArea/PostRead.tsx";
+} from "./components/PostWrite.tsx";
+import Root from "./components/Root.tsx";
+import BlogMain from "./components/BlogMain.tsx";
+import { postListLoader } from "./components/PostList.tsx";
+import PostRead, { postReadLoader } from "./components/PostRead.tsx";
+import {
+  loader as LoginLoader,
+  action as LoginAction,
+} from "./components/Login.tsx";
 import PostEdit, {
   postEditAction,
   postEditLoader,
-} from "./ContentArea/PostEdit.tsx";
-
+} from "./components/PostEdit.tsx";
+import Login from "./components/Login.tsx";
+import Register from "./components/Register.tsx";
+import {
+  loader as registerLoader,
+  action as registerAction,
+} from "./components/Register.tsx";
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+    loader: LoginLoader,
+    action: LoginAction,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    loader: registerLoader,
+    action: registerAction,
+  },
   {
     path: "/",
     element: <Root />,

@@ -11,13 +11,6 @@ import {
 import Head from "./Head";
 import EditorComponent from "./EditorComponent";
 
-class User {
-  id: number | undefined;
-  firstName: string = "";
-  lastName: string = "";
-  isActive: boolean = false;
-}
-
 export default function PostWrite() {
   const { msg } = useLoaderData() as { msg: string };
 

@@ -12,7 +12,7 @@ function Head() {
         <Link to="/write">글쓰기</Link>
       </span>{" "}
       <span>
-        <Link to="/guest">방명록</Link>
+        <Link to="/login">로그인</Link>
       </span>
     </div>
   );
