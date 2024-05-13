@@ -12,19 +12,23 @@ interface EditorComponentProps {
 }
 
 class EditorComponent extends Component<EditorComponentProps> {
-  constructor(props: any) {
+  constructor(props: EditorComponentProps) {
     super(props);
 
     const html = props.value;
-    const contentBlock = htmlToDraft(html);
-    if (contentBlock) {
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
-      );
-      const editorState = EditorState.createWithContent(contentState);
-      this.state = {
-        editorState,
-      };
+    if (html != undefined) {
+      const contentBlock = htmlToDraft(html);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        this.state = {
+          editorState,
+        };
+      } else {
+        this.state = { editorState: EditorState.createEmpty() };
+      }
     } else {
       this.state = { editorState: EditorState.createEmpty() };
     }

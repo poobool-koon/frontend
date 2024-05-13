@@ -8,3 +8,10 @@ h1 {
   text-decoration: none;
   color: black;
 }
+#active {
+  display: flex;
+  justify-content: space-between;
+}
+#welcome {
+  text-align: right;
+}

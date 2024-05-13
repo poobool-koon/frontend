@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import {
   ActionFunctionArgs,
   Form,
@@ -7,7 +8,7 @@ import {
 } from "react-router-dom";
 import "./Head.css";
 import { useState, useEffect } from "react";
-import { requestLogin } from "../services/Login";
+import { getUser, requestLogin } from "../services/Login";
 
 function Login() {
   return (
@@ -38,6 +39,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export async function action({ params, request }: ActionFunctionArgs) {
   const form = await request.formData();
   const data = Object.fromEntries(form);
-  await requestLogin(data.userid.toString(), data.password.toString());
-  return redirect("/");
+  const success = await requestLogin(
+    data.userid.toString(),
+    data.password.toString()
+  );
+  if (success) return redirect("/");
+  else return {};
 }

@@ -1,31 +1,48 @@
+import Cookies from "js-cookie";
 export async function requestLogin(
-  id: string,
+  userid: string,
   password: string
-): Promise<string> {
-  let session = "";
-  fetch("http://127.0.0.1:3000/login", {
+): Promise<boolean> {
+  const response = await fetch("https://poobool1302.ddns.net/api/login", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id, password }),
+    body: JSON.stringify({ userid, password }),
+  });
+  if (response.ok) {
+    const user = await getUser(userid.toString());
+    Cookies.set("userid", user.userid);
+    Cookies.set("username", user.username);
+    console.log(response.headers);
+  } else {
+    window.alert("로그인 정보가 일치하지 않습니다.");
+  }
+  return response.ok;
+}
+export async function requestLogout() {
+  await fetch("https://poobool1302.ddns.net/api/logout", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+      Cookies.remove("userid");
+      Cookies.remove("username");
       return response.json();
     })
-    .then((data) => {
-      session = data;
-    })
+    .then((data) => {})
     .catch((error) => {});
-  return session;
 }
-
 export async function getUser(userid: string): Promise<User | null> {
   let user: User | null = null;
-  await fetch("http://127.0.0.1:3000/users?userid=" + userid, {
+  await fetch("https://poobool1302.ddns.net/api/users?userid=" + userid, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +67,7 @@ export async function requestRegister(
   password: string
 ): Promise<boolean> {
   let success: boolean = false;
-  await fetch("http://127.0.0.1:3000/users", {
+  await fetch("https://poobool1302.ddns.net/api/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

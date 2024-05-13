@@ -1,10 +1,11 @@
+import Cookies from "js-cookie";
 export class BlogPost {
   constructor(title: string, content: string) {
     this.content = content;
     this.title = title;
   }
   id: number | undefined;
-  userid: number | undefined;
+  userid: string | undefined;
   title: string = "";
   content: string = "";
   timestamp: string | undefined;
@@ -13,26 +14,21 @@ export class BlogPost {
   }
 }
 
-export async function createBlogPost(blogPost: BlogPost) {
-  fetch("http://127.0.0.1:3000/posts", {
+export async function createBlogPost(blogPost: BlogPost): Promise<boolean> {
+  const response = await fetch("https://poobool1302.ddns.net/api/posts", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + Cookies.get("access_token"),
     },
     body: JSON.stringify(blogPost),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {})
-    .catch((error) => {});
+  });
+  return response.ok;
 }
 export async function readBlogPost(id: string): Promise<BlogPost> {
   let post: BlogPost = new BlogPost("", "");
-  await fetch("http://127.0.0.1:3000/posts/" + id, {
+  await fetch("https://poobool1302.ddns.net/api/posts/" + id, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -51,43 +47,33 @@ export async function readBlogPost(id: string): Promise<BlogPost> {
     .catch((error) => {});
   return post;
 }
-export async function updateBlogPost(id: string, blogPost: BlogPost) {
-  fetch("http://127.0.0.1:3000/posts/" + id, {
+export async function updateBlogPost(
+  id: string,
+  blogPost: BlogPost
+): Promise<boolean> {
+  const response = await fetch("https://poobool1302.ddns.net/api/posts/" + id, {
     method: "PUT",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(blogPost),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {})
-    .catch((error) => {});
+  });
+  return response.ok;
 }
-export async function removeBlogPost(id: string) {
-  fetch("http://127.0.0.1:3000/posts/" + id, {
+export async function removeBlogPost(id: string): Promise<boolean> {
+  const response = await fetch("https://poobool1302.ddns.net/api/posts/" + id, {
     method: "DELETE",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      window.alert("삭제되었습니다.");
-      return response.json();
-    })
-    .then((data) => {})
-    .catch((error) => {});
+  });
+  return response.ok;
 }
 export async function listBlogPost(): Promise<BlogPost[]> {
   let list: BlogPost[] = [];
-  await fetch("http://127.0.0.1:3000/posts", {
+  await fetch("https://poobool1302.ddns.net/api/posts", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
